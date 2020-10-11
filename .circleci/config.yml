@@ -32,14 +32,3 @@ workflows:
   test:
     jobs:
       - deploy
-
-
-# version: 2.1
-# orbs:
-#   gcp-cli: circleci/gcp-cli@1.0.0
-# workflows:
-#   install_and_configure_cli:
-#     jobs:
-#       - gcp-cli/install_and_initialize_cli:
-#           context: org-global
-#           executor: gcp-cli/default
