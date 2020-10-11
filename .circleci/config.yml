@@ -1,25 +1,34 @@
-version: 2.1
-jobs:
-  deploy:
-    docker:
-      - image: google/cloud-sdk
-        #auth:
-        #  username: mydockerhub-user
-        #  password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
-    steps:
-      - run: |
-          echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
-          touch $HOME/.ssh/google_compute_engine
-          echo $GCLOUD_SERVICE_KEY > $HOME/.ssh/google_compute_engine
-          gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
-          gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
-          ## gcloud debug targets list --quiet
-          ## List projects
-          ## gcloud projects list --format="table(name, project_id, createTime.date(tz=LOCAL))"
-          ## Run remote script
-          gcloud compute ssh instance-1 --command="echo 'hello world'"
+# version: 2.1
+# jobs:
+#   deploy:
+#     docker:
+#       - image: google/cloud-sdk
+#         #auth:
+#         #  username: mydockerhub-user
+#         #  password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+#     steps:
+#       - run: |
+#           echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
+#           touch $HOME/.ssh/google_compute_engine
+#           echo $GCLOUD_SERVICE_KEY > $HOME/.ssh/google_compute_engine
+#           gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+#           gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
+#           ## gcloud debug targets list --quiet
+#           ## List projects
+#           ## gcloud projects list --format="table(name, project_id, createTime.date(tz=LOCAL))"
+#           ## Run remote script
+#           gcloud compute ssh instance-1 --command="echo 'hello world'"
 
+# workflows:
+#   install_and_configure_cli:
+#     jobs:
+#       - deploy
+orbs:
+  gcp-cli: circleci/gcp-cli@1.0.0
+version: 2.1
 workflows:
   install_and_configure_cli:
     jobs:
-      - deploy
+      - gcp-cli/install_and_initialize_cli:
+          context: org-global
+          executor: gcp-cli/default
