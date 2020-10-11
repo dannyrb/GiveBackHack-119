@@ -1,0 +1,16 @@
+version: 2.1
+orbs:
+  welcome: circleci/welcome-orb@0.4.1
+  gcp-cli: circleci/gcp-cli@1.8.5
+
+workflows:
+  install_and_configure_cli:
+    jobs:
+      - gcp-cli/install_and_initialize_cli:
+          context: myContext
+          executor: gcp-cli/default
+  # Name the workflow "welcome"
+  welcome:
+    # Run the welcome/run job in its own container
+    jobs:
+      - welcome/run
