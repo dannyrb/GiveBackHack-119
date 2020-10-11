@@ -7,6 +7,14 @@ jobs:
         #  username: mydockerhub-user
         #  password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
     steps:
+      - add_ssh_keys:
+          fingerprints:
+              - "7f:fc:4e:fa:88:79:13:7a:c8:38:88:d0:e6:c8:bf:ff"
+      # - run:
+      #     name: Decrypt ssh key via env variable
+      #     command: |
+      #       echo $GCLOUD_SSH_KEY_PUB | base64 --decode --ignore-garbage > ${HOME}/.ssh/id_rsa_FINGER_PRINT_WITHOUT_COLONS.pub;
+      #       chmod 0600 ${HOME}/.ssh/id_rsa_FINGER_PRINT_WITHOUT_COLONS.pub;
       - run: |
           echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
           # sudo touch $HOME/.ssh/google_compute_engine
