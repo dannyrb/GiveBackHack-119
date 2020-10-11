@@ -25,7 +25,7 @@ jobs:
           ## List projects
           ## gcloud projects list --format="table(name, project_id, createTime.date(tz=LOCAL))"
           ## Run remote script
-          gcloud beta compute ssh --zone "us-east1-d" "instance-1" --project "givebackhack-119"
+          ## gcloud beta compute ssh --zone "us-east1-d" "instance-1" --project "givebackhack-119"
           gcloud compute ssh instance-1 --command="echo 'hello world'"
 
 workflows:
