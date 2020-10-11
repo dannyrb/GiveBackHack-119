@@ -13,9 +13,9 @@ jobs:
           gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
           ## gcloud debug targets list --quiet
           ## List projects
-          gcloud projects list --format="table(name, project_id, createTime.date(tz=LOCAL))"
+          ## gcloud projects list --format="table(name, project_id, createTime.date(tz=LOCAL))"
           ## Run remote script
-          gcloud compute ssh instance-1 --command=/home/deploy_staging.sh
+          gcloud compute ssh instance-1 --command="echo 'hello world'"
 
 workflows:
   install_and_configure_cli:
