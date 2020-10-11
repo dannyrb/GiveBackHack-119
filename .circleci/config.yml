@@ -1,14 +1,21 @@
 version: 2.1
-orbs:
-  welcome: circleci/welcome-orb@0.4.1
-  gcp-cli: circleci/gcp-cli@1.8.5
+jobs:
+  deploy:
+    docker:
+      - image: google/cloud-sdk
+        #auth:
+        #  username: mydockerhub-user
+        #  password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+    steps:
+      - run: |
+          echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
+          gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+          gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
 
 workflows:
   install_and_configure_cli:
     jobs:
-      - gcp-cli/install_and_initialize_cli:
-          context: myContext
-          executor: gcp-cli/default
+      - deploy
   # Name the workflow "welcome"
   welcome:
     # Run the welcome/run job in its own container
